@@ -1,3 +1,5 @@
+Developed an Appliance Warranty Tracker application to efficiently store, manage, and track warranty information for household appliances. The app enables users to upload and securely save appliance bills, monitor warranty periods, and conveniently download stored bills for future reference.
+
 Building Application:
 
     What we need :
