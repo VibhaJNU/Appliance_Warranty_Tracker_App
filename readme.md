@@ -1,43 +1,171 @@
+🚀 **Overview**
+This application allows users to:
+
+    Register and login to a secure account
+    
+    Upload appliance purchase receipts (bills, invoices, documents)
+    
+    Store details like appliance type, purchase date, warranty duration
+    
+    Automatically calculate and display warranty expiry dates
+    
+    Download saved receipts or view warranty status via the dashboard
+
+✅** Getting Started**
+1. Clone the Repo
+git clone https://github.com/VibhaJNU/Appliance_Warranty_Tracker_App.git
+cd Appliance_Warranty_Tracker_App
+
+2. Setup Environment
+python -m venv venv
+source venv/bin/activate           # macOS/Linux
+.\venv\Scripts\activate            # Windows
+pip install -r src/requirements.txt
+
+3. Configure Database
+Create your database (e.g. SQLite, PostgreSQL, MySQL)
+
+Update connection settings in src/database.py
+
+4. Run the App Locally
+streamlit run src/app.py
+
+Your app will be available at:
+http://localhost:8501
+
+📦 **App Features**
+User Authentication: Secure registration and login (e.g. via auth.py)
+
+Appliance Entry: Add purchase date, warranty period, and upload bill
+
+Dashboard: View ongoing warranties, expiry warnings
+
+Receipt Management: Download previously uploaded bills
+
+Warranty Expiry Logic: Automatically computes expiry date in database.py
+
+
+⚙️ **Usage Flow**
+Start the Streamlit app (app.py)
+
+Register or log into your user account
+
+Navigate to “Upload Appliance” section
+
+Provide appliance details + upload receipt
+
+View dashboard for warranty details and download invoices
+
+📂 **Docker Deployment (Optional)**
+A Dockerfile exists in the root folder. To build and run:
+
+docker build -t warranty_tracker_app .
+docker run -p 8501:8501 warranty_tracker_app
+Access the app in your browser at http://localhost:8501
+
+🙌 What’s Next?
+Integrate email reminders for upcoming warranty expiries
+
+Extend support to multi-user roles (admin, standard)
+
+Add receipt validation (e.g. via OCR or manual tagging)
+
+Deploy using Docker Compose on a cloud platform (e.g., DigitalOcean, AWS)
+
+
+
+
+
+
+
+
 Developed an Appliance Warranty Tracker application to efficiently store, manage, and track warranty information for household appliances. The app enables users to upload and securely save appliance bills, monitor warranty periods, and conveniently download stored bills for future reference.
 
-Building Application:
+🏗️ **Application Building Steps**
+Requirements:
+    Create a database and tables:
+    
+    registration_login table
+    
+    customer_info table
+    
+    Take user input:
+    
+    Login/Registration: Name, Email ID, Password
+    
+    Appliance Category: Provide a dropdown list of appliance types
+    
+    Purchase Date
+    
+    Warranty Period (data type: float)
+    
+    Store all input data in the created database tables.
+    
+    Add a column in the customer_info table to calculate the warranty expiry date.
 
-    What we need :
-    1. Create database and tables - Registration_login table, Customer_info table
-    2. Take user input:
-        1. login credential/ Registration : Name, email-id, password
-        2. Appliances category - we need to provide drop down list of appliances name
-        3. Purchase date
-        4. Warranty Period (data type should float)
-    3. We need to store all these data into created table in database
-    4. Add another col in customer_info table where we calculate warranty expiry date
-    5. Streamlit app building:
-        1. Two section : Upload information, view your information
-        2. side bar for login and registration
-        3. In upload info section, there will be bill upload option and we will store bills in new folder
-        4. In view Info section: take name and email id and based on that extract all info from customer_info table
-        5. Provide bills download optiion also
+🎯 **Streamlit App Design**
+Two sections:
 
-After application build:
+    Upload Information
+    
+    View Your Information
 
-1. Created Docker Image and container:
+Sidebar for user login and registration.
 
-a. Create blank docker file outside of src folder
-b. Add flowings: FROM python version, WORKDIR /app , ADD src/app , RUN pip install...., EXPORT 8501 CMD used commands
-c. Run docker file from same adress where docker file is stored. Command: docker build -t vibha0908/streamlite_app:01 .   // here vibha0908 is docker hub account id
-If i have made any changes and want to rerun from starting then command is: docker build --no-cache -t vibha0908/streamlite_app:01 .
-d.After succesfully image build, we create container by using this command:docker run -p 8501:8501 streamlite_app:01
-So, after successful docker run we will get the application live in local sytem at port 8501.
+In the Upload Information section:
+
+    Option to upload appliance bills.
+    
+    Uploaded bills are saved in a designated folder.
+
+In the View Information section:
+
+    Input: Name and Email ID.
+    
+    Extract and display all relevant information from the customer_info table.
+    
+    Option to download uploaded bills.
+
+🐳 **Dockerization**
+1. Creating Docker Image and Container
+a. Create a blank Dockerfile (outside the src folder).
+b. Add the following Dockerfile content:
+
+dockerfile
+FROM python:<version>
+WORKDIR /app
+ADD src/ /app
+RUN pip install -r requirements.txt
+EXPOSE 8501
+CMD ["streamlit", "run", "app.py"]
+
+c. Run the Docker build command from the same directory as the Dockerfile:
+    docker build -t vibha0908/streamlite_app:01 .
+    (Here, vibha0908 is the Docker Hub username)
+
+d. To rebuild the image without cache:
+docker build --no-cache -t vibha0908/streamlite_app:01 .
+e. After a successful build, run the container:
+docker run -p 8501:8501 vibha0908/streamlite_app:01
+The application will now be live locally at: http://localhost:8501
+
+☁️ **Deployment on AWS EC2**
+Refer to this YouTube tutorial for guidance:
+🔗 Deploy Dockerized Streamlit App on AWS EC2
+
+Steps:
+Push the Docker image to Docker Hub:
+docker push vibha0908/streamlite_app:01
+Create an AWS Account at aws.amazon.com
+(Note: Requires valid card details)
+
+Navigate to EC2 Instance in AWS Console.
+
+Follow the video tutorial to set up the EC2 instance.
+
+Important: Streamlit apps run by default on port 8501.
+
+Ensure to customize your security group settings to allow inbound traffic on port 8501.
 
 
-2. Now, we deploye docker image into EC2 AWS services.
-
-follow the below link for deployement:
-https://www.youtube.com/watch?v=wHy0JNwrB9k&ab_channel=MPrashant
-
-a. For deployment, first we need to push docker image into docker hub. Used command: docker push vibha0908/streamlite_app:01
-b. Then we will create aws account (aws.amazon.com -> console) (required card information)
-b. Go to EC2 Instance services
-c. And follow the youtube steps.
-d. important point to note, streamlit app run only in 8501 port. So we will need to customize http port number to 8501
 
